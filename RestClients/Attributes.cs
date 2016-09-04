@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.SqlServer.Server;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace RestClients
 {
-    public abstract class Attributes : System.Attribute
+    public abstract class UriAttribute : System.Attribute
     {
-        protected Attributes(string uri)
+        protected UriAttribute(string uri)
         {
             Uri = uri;
         }
@@ -17,7 +18,7 @@ namespace RestClients
     }
 
     [AttributeUsage(AttributeTargets.Interface)]
-    public class SiteAttribute : Attributes
+    public class SiteAttribute : UriAttribute
     {
         public SiteAttribute(string uri)
             : base(uri)
@@ -28,7 +29,7 @@ namespace RestClients
     }
 
     [AttributeUsage(AttributeTargets.Method)]
-    public class GetAttribute : Attributes
+    public class GetAttribute : UriAttribute
     {
         public GetAttribute(string uri = "")
             : base(uri)
@@ -37,7 +38,7 @@ namespace RestClients
     }
 
     [AttributeUsage(AttributeTargets.Method)]
-    public class PostAttribute : Attributes
+    public class PostAttribute : UriAttribute
     {
         public PostAttribute(string uri = "")
             : base(uri)
@@ -46,7 +47,7 @@ namespace RestClients
     }
 
     [AttributeUsage(AttributeTargets.Method)]
-    public class PutAttribute : Attributes
+    public class PutAttribute : UriAttribute
     {
         public PutAttribute(string uri = "")
             : base(uri)
@@ -55,7 +56,7 @@ namespace RestClients
     }
 
     [AttributeUsage(AttributeTargets.Method)]
-    public class DeleteAttribute : Attributes
+    public class DeleteAttribute : UriAttribute
     {
         public DeleteAttribute(string uri = "")
             : base(uri)
@@ -64,7 +65,18 @@ namespace RestClients
     }
 
     [AttributeUsage(AttributeTargets.Parameter)]
-    public class BodyAttribute : System.Attribute
+    public class BodyAttribute : Attribute
     {
+    }
+
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    public class HeaderAttribute : Attribute
+    {
+        public HeaderAttribute(string format)
+        {
+            Format = format;
+        }
+
+        public string Format { get; }
     }
 }

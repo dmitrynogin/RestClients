@@ -88,7 +88,7 @@ namespace RestClients
         string Class => Type.Name.TrimStart('I');
         IEnumerable<MethodInfo> Methods => Type.GetMethods();
         SiteAttribute Attribute() => Type.Attribute<SiteAttribute>();
-        Attributes Attribute(MethodInfo method) => method.Attribute<Attributes>();
+        UriAttribute Attribute(MethodInfo method) => method.Attribute<UriAttribute>();
     }
 
     static class Helpers

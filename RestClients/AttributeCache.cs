@@ -22,7 +22,7 @@ namespace RestClients
 
         public static IEnumerable<T> Attributes<T>(this MemberInfo member)
             where T : System.Attribute => Cache
-                .GetOrAdd(member, t => t.GetCustomAttributes(true).OfType<Attributes>().ToArray())
+                .GetOrAdd(member, t => t.GetCustomAttributes(true).OfType<UriAttribute>().ToArray())
                 .OfType<T>();
 
         static ConcurrentDictionary<MemberInfo, System.Attribute[]> Cache { get; } =

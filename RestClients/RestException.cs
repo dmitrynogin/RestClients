@@ -29,7 +29,20 @@ namespace RestClients
         {
         }
 
-        public T Error => JsonConvert.DeserializeObject<T>(ToString());
+        public T Error
+        {
+            get
+            {
+                try
+                {
+                    return JsonConvert.DeserializeObject<T>(ToString());
+                }
+                catch
+                {
+                    return default(T);
+                }
+            }
+        }
     }
 
     static class ResponseGuard

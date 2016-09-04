@@ -48,6 +48,12 @@ namespace Demo
 
         [Put("posts/{0}")]
         Task<BlogPost> PutAsync(int id, [Body] BlogPost data);
+
+        // TODO: Add HTTP header support
+        //[Get("posts")]
+        //[Header("X-API-KEY: {1}")]
+        //[Header("Content-Type: {2}; charset={3}")]
+        //Task<BlogPost> GetAsync(int id, string apiKey, out string contentType, out string charset);
     }
 
     public class TypicodeError
