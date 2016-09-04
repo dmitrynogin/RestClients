@@ -33,7 +33,7 @@ namespace Demo
         Task<BlogPost> GetAsync(int id);
 
         [Post("posts")]
-        Task<BlogPost> PostAsync([Body] BlogPost data);
+        Task<BlogPost> PostAsync(int id, [Body] BlogPost data);
     }
 
     public class BlogPost

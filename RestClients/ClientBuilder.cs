@@ -56,6 +56,11 @@ namespace RestClients
             sb.AppendLine($"    class {Class}: RestClient, {Type.TypeName()}");
             sb.AppendLine("    {");
 
+            sb.AppendLine($"        public {Class}({typeof(HttpMessageHandler).TypeName()} handler)");
+            sb.AppendLine("            : base(handler)");
+            sb.AppendLine("        {");
+            sb.AppendLine("        }");
+
             foreach (var method in Methods)
             {
                 sb.AppendLine($"        public System.Threading.Tasks.Task<{method.ReturnType()}> {method.Name}({method.Arguments()})");

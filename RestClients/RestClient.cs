@@ -17,18 +17,21 @@ namespace RestClients
         static ConcurrentDictionary<Type, Type> Types { get; } = new ConcurrentDictionary<Type, Type>();
 
         public static T Create<T>() =>
-            (T)Activator.CreateInstance(Types.GetOrAdd(typeof(T), new ClientBuilder<T>().Emit()));
-
-        public static T Create<T>(HttpMessageHandler handler) =>
-            (T)Activator.CreateInstance(Types.GetOrAdd(typeof(T), new ClientBuilder<T>().Emit()), handler);
+            Create<T>(null);
         
+        public static T Create<T>(HttpMessageHandler handler) =>
+            (T)Activator.CreateInstance(Emit<T>(), handler);
+
+        public static Type Emit<T>() =>
+            Types.GetOrAdd(typeof(T), new ClientBuilder<T>().Emit());
+
         static readonly JsonSerializerSettings Settings = new JsonSerializerSettings()
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver(),
             Converters = new[] { new StringEnumConverter() }
         };
 
-        protected RestClient(HttpMessageHandler handler = null)
+        protected RestClient(HttpMessageHandler handler)
         {
             Client = handler == null ? new HttpClient() : new HttpClient(handler);
             Client.DefaultRequestHeaders
