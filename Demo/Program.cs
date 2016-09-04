@@ -20,10 +20,14 @@ namespace Demo
             try
             {
                 var typicode = RestClient.Create<ITypicode>();
-                var blogPost = await typicode.GetAsync(10000000);
+                var blogPost = await typicode.PutAsync(1, new BlogPost { Body = "Wow!" });
                 Console.WriteLine(blogPost.Body);
             }
-            catch(RestException ex)
+            catch (RestException<TypicodeError> ex)
+            {
+                Console.WriteLine(ex);
+            }
+            catch (RestException ex)
             {
                 Console.WriteLine(ex);
             }
@@ -40,7 +44,10 @@ namespace Demo
         Task<BlogPost> GetAsync(int id);
 
         [Post("posts")]
-        Task<BlogPost> PostAsync(int id, [Body] BlogPost data);
+        Task<BlogPost> PostAsync([Body] BlogPost data);
+
+        [Put("posts/{0}")]
+        Task<BlogPost> PutAsync(int id, [Body] BlogPost data);
     }
 
     public class TypicodeError

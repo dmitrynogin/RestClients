@@ -45,6 +45,24 @@ namespace RestClients
         }
     }
 
+    [AttributeUsage(AttributeTargets.Method)]
+    public class PutAttribute : Attributes
+    {
+        public PutAttribute(string uri = "")
+            : base(uri)
+        {
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Method)]
+    public class DeleteAttribute : Attributes
+    {
+        public DeleteAttribute(string uri = "")
+            : base(uri)
+        {
+        }
+    }
+
     [AttributeUsage(AttributeTargets.Parameter)]
     public class BodyAttribute : System.Attribute
     {

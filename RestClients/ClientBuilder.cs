@@ -71,7 +71,11 @@ namespace RestClients
                     sb.AppendLine($"            return GetAsync<{method.ReturnType()}>(url);");
                 if (Attribute(method) is PostAttribute)
                     sb.AppendLine($"            return PostAsync<{method.ReturnType()}>(url{method.Body()});");
-                
+                if (Attribute(method) is PutAttribute)
+                    sb.AppendLine($"            return PutAsync<{method.ReturnType()}>(url{method.Body()});");
+                if (Attribute(method) is DeleteAttribute)
+                    sb.AppendLine($"            return DeleteAsync<{method.ReturnType()}>(url);");
+
                 sb.AppendLine("        }");
             }
 

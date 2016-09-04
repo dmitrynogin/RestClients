@@ -46,6 +46,12 @@ namespace RestClients
         protected async Task<T> PostAsync<T>(Uri url, object data = null) =>
             await ParseJson<T>(await Client.PostAsync(url, JsonContent.From(data)));
 
+        protected async Task<T> PutAsync<T>(Uri url, object data = null) =>
+            await ParseJson<T>(await Client.PutAsync(url, JsonContent.From(data)));
+
+        protected async Task<T> DeleteAsync<T>(Uri url, object data = null) =>
+            await ParseJson<T>(await Client.DeleteAsync(url));
+
         protected HttpClient Client { get; }
         protected Type Error { get; }
 
