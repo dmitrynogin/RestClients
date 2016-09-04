@@ -23,6 +23,8 @@ namespace RestClients
             : base(uri)
         {
         }
+
+        public Type Error { get; set; }
     }
 
     [AttributeUsage(AttributeTargets.Method)]

@@ -58,6 +58,7 @@
     <Compile Include="RestClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Attributes.cs" />
+    <Compile Include="RestException.cs" />
     <Compile Include="UriFormat.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -31,8 +31,9 @@ namespace RestClients
             Converters = new[] { new StringEnumConverter() }
         };
 
-        protected RestClient(HttpMessageHandler handler)
+        protected RestClient(Type error, HttpMessageHandler handler)
         {
+            Error = error;
             Client = handler == null ? new HttpClient() : new HttpClient(handler);
             Client.DefaultRequestHeaders
                 .Accept
@@ -46,9 +47,11 @@ namespace RestClients
             await ParseJson<T>(await Client.PostAsync(url, JsonContent.From(data)));
 
         protected HttpClient Client { get; }
+        protected Type Error { get; }
 
         async Task<T> ParseJson<T>(HttpResponseMessage response) =>
-            JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync(), Settings);
+            JsonConvert.DeserializeObject<T>(
+                await response.ThrowIfError(Error).Content.ReadAsStringAsync(), Settings);
 
         class JsonContent : StringContent
         {

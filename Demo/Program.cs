@@ -17,13 +17,20 @@ namespace Demo
 
         static async Task MainAsync()
         {
-            var typicode = RestClient.Create<ITypicode>();
-            var blogPost = await typicode.GetAsync(1);
-            Console.WriteLine(blogPost.Body);
+            try
+            {
+                var typicode = RestClient.Create<ITypicode>();
+                var blogPost = await typicode.GetAsync(10000000);
+                Console.WriteLine(blogPost.Body);
+            }
+            catch(RestException ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
     }
-
-    [Site("https://jsonplaceholder.typicode.com")]
+    
+    [Site("https://jsonplaceholder.typicode.com", Error = typeof(TypicodeError))]
     public interface ITypicode
     {
         [Get("posts")]
@@ -34,6 +41,10 @@ namespace Demo
 
         [Post("posts")]
         Task<BlogPost> PostAsync(int id, [Body] BlogPost data);
+    }
+
+    public class TypicodeError
+    {
     }
 
     public class BlogPost

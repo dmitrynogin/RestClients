@@ -57,7 +57,7 @@ namespace RestClients
             sb.AppendLine("    {");
 
             sb.AppendLine($"        public {Class}({typeof(HttpMessageHandler).TypeName()} handler)");
-            sb.AppendLine("            : base(handler)");
+            sb.AppendLine($"            : base({Attribute().Error.TypeOf()}, handler)");
             sb.AppendLine("        {");
             sb.AppendLine("        }");
 
@@ -83,7 +83,7 @@ namespace RestClients
 
         string Class => Type.Name.TrimStart('I');
         IEnumerable<MethodInfo> Methods => Type.GetMethods();
-        Attributes Attribute() => Type.Attribute<SiteAttribute>();
+        SiteAttribute Attribute() => Type.Attribute<SiteAttribute>();
         Attributes Attribute(MethodInfo method) => method.Attribute<Attributes>();
     }
 
@@ -97,5 +97,6 @@ namespace RestClients
             string.Join("", method.GetParameters().Where(p => p.IsDefined(typeof(BodyAttribute))).Select(p => ", " + p.Name));
 
         public static string TypeName(this Type type) => new CSharpCodeProvider().GetTypeOutput(new CodeTypeReference(type));
+        public static string TypeOf(this Type type) => type == null ? "null" : $"typeof({new CSharpCodeProvider().GetTypeOutput(new CodeTypeReference(type))})";
     }
 }
