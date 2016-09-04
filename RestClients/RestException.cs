@@ -17,8 +17,9 @@ namespace RestClients
             Response = response;
         }
 
-        HttpResponseMessage Response { get; }
-        public override string ToString() => Response.Content.ReadAsStringAsync().Result;
+        public HttpResponseMessage Response { get; }
+        public override string ToString() => 
+            Response.Content.ReadAsStringAsync().Result;
     }
 
     public class RestException<T> : RestException
