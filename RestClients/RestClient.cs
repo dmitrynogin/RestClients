@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using RestClients.Models;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -40,20 +41,28 @@ namespace RestClients
                 .Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        protected async Task<T> GetAsync<T>(Uri url) =>
-            await ParseJson<T>(await Client.GetAsync(url));
-
-        protected async Task<T> PostAsync<T>(Uri url, object data = null) =>
-            await ParseJson<T>(await Client.PostAsync(url, JsonContent.From(data)));
-
-        protected async Task<T> PutAsync<T>(Uri url, object data = null) =>
-            await ParseJson<T>(await Client.PutAsync(url, JsonContent.From(data)));
-
-        protected async Task<T> DeleteAsync<T>(Uri url, object data = null) =>
-            await ParseJson<T>(await Client.DeleteAsync(url));
-
         protected HttpClient Client { get; }
         protected Type Error { get; }
+
+        protected async Task<T> SendAsync<T>(HttpMethod method, Uri url, IEnumerable<Header> headers = null, object data = null) =>
+            await ParseJson<T>(await SendAsync(method, url, headers, data));
+
+        protected async Task<HttpResponseMessage> SendAsync(HttpMethod method, Uri url, IEnumerable<Header> headers = null, object data = null)
+        {
+            var request = new HttpRequestMessage(method, url);
+            if (headers != null)
+                foreach (var header in headers)
+                    header.TryWrite(request);
+            if (data != null)
+                request.Content = new JsonContent(data);
+
+            var response = await Client.SendAsync(request);
+            if (headers != null)
+                foreach (var header in headers)
+                    header.TryRead(response);
+
+            return response.ThrowIfError(Error);
+        }
 
         async Task<T> ParseJson<T>(HttpResponseMessage response) =>
             JsonConvert.DeserializeObject<T>(
@@ -61,9 +70,6 @@ namespace RestClients
 
         class JsonContent : StringContent
         {
-            public static JsonContent From(object data) =>
-                data == null ? null : new JsonContent(data);
-
             public JsonContent(object data)
                 : base(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json")
             {

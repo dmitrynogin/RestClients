@@ -20,8 +20,11 @@ namespace Demo
             try
             {
                 var typicode = RestClient.Create<ITypicode>();
-                var blogPost = await typicode.PutAsync(1, new BlogPost { Body = "Wow!" });
-                Console.WriteLine(blogPost.Body);
+
+                string cacheControl;
+                int maxAge;
+                var blogPost = await typicode.GetAsync(1, out cacheControl, out maxAge);
+                Console.WriteLine($"maxAge={maxAge}\ncacheControl={cacheControl}\n{blogPost.Body}");
             }
             catch (RestException<TypicodeError> ex)
             {
@@ -31,10 +34,14 @@ namespace Demo
             {
                 Console.WriteLine(ex);
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
     }
-    
-    [Site("https://jsonplaceholder.typicode.com", Error = typeof(TypicodeError))]
+
+    [Site("http://jsonplaceholder.typicode.com", Error = typeof(TypicodeError))]
     public interface ITypicode
     {
         [Get("posts")]
@@ -49,11 +56,13 @@ namespace Demo
         [Put("posts/{0}")]
         Task<BlogPost> PutAsync(int id, [Body] BlogPost data);
 
-        // TODO: Add HTTP header support
-        //[Get("posts")]
-        //[Header("X-API-KEY: {1}")]
-        //[Header("Content-Type: {2}; charset={3}")]
-        //Task<BlogPost> GetAsync(int id, string apiKey, out string contentType, out string charset);
+        [Delete("posts/{0}")]
+        Task DeleteAsync(int id);
+
+        [Get("posts/{0}")]
+        [Header("X-ID: {0}")] // in params - req header
+        [Header("Cache-Control: {1}, max-age={2}")] // out params - res header
+        Task<BlogPost> GetAsync(int id, out string cacheControl, out int maxAge);
     }
 
     public class TypicodeError

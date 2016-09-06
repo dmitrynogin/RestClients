@@ -1,0 +1,66 @@
+using System.Net.Http;
+
+namespace @Model.Namespace
+{
+    class @Model.ClassTypeName : @Model.BaseTypeName, @Model.InterfaceTypeName
+    {
+        public @Model.ClassTypeName (@Model.MessageHandlerTypeName handler)
+            : base(@Model.ErrorType, handler)
+        {
+        }
+
+		@foreach(var action in Model.Actions)
+		{ 
+        @:public @action.ReturnTypeName @action.Name (@action.Arguments)
+        @:{
+			foreach(var initialization in action.Initializations)
+            {
+            @:@initialization
+			}
+
+            @:var url = new @Model.UrlTypeName ("@Model.SiteUri", "@action.ActionUri" @action.UrlParameters);
+            @:var headers = new @Model.HeaderTypeName [] 
+            @:{
+				foreach(var hf in @action.RequestHeaders)	
+				{
+                @:new @action.RequestHeaderTypeName ("@hf"@action.UrlParameters),
+				}
+				foreach(var hf in @action.ResponseHeaders)	
+				{
+                @:new @action.ResponseHeaderTypeName ("@hf"),
+				}
+            @:};
+
+            if(action.HeaderAssignments.Length > 0)
+			{
+			@:var task = System.Threading.Tasks.Task.Run(() => @action.Call);
+			@:task.Wait();
+			
+			@:foreach(var header in headers)
+            @:{
+                foreach(var ha in action.HeaderAssignments)
+				{
+                @:@ha
+				}
+            @:}
+			@:return task;
+			}
+			else
+			{
+			@:return @action.Call;
+			}            
+        @:}
+		}
+
+        public string CSharp 
+        {
+            get 
+            {
+                 return new @Model.BuilderTypeName ("@Model.Namespace")
+                     .ToString(); 
+            }
+        }
+    }
+}
+
+

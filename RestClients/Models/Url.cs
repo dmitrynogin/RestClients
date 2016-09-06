@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RestClients
+namespace RestClients.Models
 {
-    public class UriFormat
+    public class Url
     {
-        public static implicit operator Uri(UriFormat format) => new Uri(format.Value);
-
-        public UriFormat(string baseUri, string relativeUri, params object[] parameters)
+        public static implicit operator Uri(Url format) => new Uri(format.Value);
+        
+        public Url(string baseUri, string relativeUri, params object[] parameters)
         {
             var format = new Uri(
                 new Uri(baseUri), relativeUri)
@@ -20,5 +20,6 @@ namespace RestClients
         }
 
         string Value { get; }
+        public override string ToString() => Value;
     }
 }
