@@ -16,7 +16,7 @@ using RestClients.Models;
 using RazorEngine.Configuration;
 using RazorEngine.Text;
 
-namespace RestClients
+namespace RestClients.Models
 {
     public class ClientBuilder<T> 
     {

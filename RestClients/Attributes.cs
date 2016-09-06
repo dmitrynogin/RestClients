@@ -108,7 +108,7 @@ namespace RestClients
                 .GetParameters()
                 .Select(p => p.IsIncomming() ? key : "")
                 .ToArray())
-                .Contains(key);               
+                .Contains(key) || !IsResponse(method);
         }
 
         public bool IsResponse(MethodInfo method)

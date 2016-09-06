@@ -61,7 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientBuilder.cs" />
+    <Compile Include="Models\ClientBuilder.cs" />
     <Compile Include="Models\AttributeCache.cs" />
     <Compile Include="Models\Header.cs" />
     <Compile Include="Models\ActionInfo.cs" />
