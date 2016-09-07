@@ -38,6 +38,12 @@ public class Definition
     public string SF { get; set; }
     public LFS[] LFS { get; set; }
 }
+public class LFS
+{
+    public string LF { get; set; }
+    public int Freq { get; set; }
+    public int Since { get; set; }
+}
 ```
 
 Invoke the service:
