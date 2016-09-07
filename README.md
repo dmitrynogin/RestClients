@@ -31,7 +31,7 @@ public interface IAcromine
 ```
 The HTTP Verb attribute defines the relative URL to invoke with the option to substitute parameter values from the function argument list into the URL. Expected return type is `Task` or `Task<T>` where `T` is a JSON.NET deserializable .NET class which matches the response payload. Method name is ignored.
 
-Define the class where the JSON response payload will be mapped to. Using dictionary]( http://www.nactem.ac.uk/software/acromine/rest.html) public API as an example:
+Define the class where the JSON response payload will be mapped to. Using [dictionary](http://www.nactem.ac.uk/software/acromine/rest.html) public API as an example:
 ```
 public class Definition
 {
@@ -85,4 +85,4 @@ Service type is available without instantiation to simplify IoC container config
 Type type = RestClient.Emit<IAcromine>();
 ```
 
-For more eamples, see the [Demo](https://github.com/dmitrynogin/RestClients/blob/master/Demo/Program.cs).
+For more examples, see the [Demo](https://github.com/dmitrynogin/RestClients/blob/master/Demo/Program.cs).
