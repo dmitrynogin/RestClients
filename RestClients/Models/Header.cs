@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RestClients.Formatting;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -38,7 +39,7 @@ namespace RestClients.Models
 
         public override bool TryWrite(HttpRequestMessage message)
         {
-            var text = string.Format(Format, Args);
+            var text = Format.Format(Args);
             var name = text.Split(':').FirstOrDefault() ?? "";
             var value = string.Join(":", text.Split(':').Skip(1));
             message.Headers.TryAddWithoutValidation(name, value);
@@ -62,7 +63,7 @@ namespace RestClients.Models
 
         public override bool TryRead(HttpResponseMessage message)
         {
-            var pattern = string.Format(Format, Enumerable.Range(0, 200).Select(i => $"(?'{i}'.*)").ToArray());
+            var pattern = Format.Format(Enumerable.Range(0, 200).Select(i => $"(?'{i}'.*)").ToArray());
             foreach (var header in message.Headers.Select(h => $"{h.Key}: {string.Join("; ", h.Value)}"))
             {
                 var groups = Regex.Match(header.ToString(), pattern).Groups;

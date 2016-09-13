@@ -41,6 +41,7 @@ namespace Demo
         }
     }
 
+    //[Site("{typicode}", Error = typeof(TypicodeError))] // reads AppSettings
     [Site("http://jsonplaceholder.typicode.com", Error = typeof(TypicodeError))]
     public interface ITypicode
     {

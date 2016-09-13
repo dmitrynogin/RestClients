@@ -1,4 +1,5 @@
 ﻿using Microsoft.SqlServer.Server;
+using RestClients.Formatting;
 using RestClients.Models;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,23 @@ namespace RestClients
 { 
     public abstract class UriAttribute : Attribute
     {
+        readonly string _uri;
+
         protected UriAttribute(string uri)
         {
-            Uri = uri;
+            _uri = uri;
         }
 
-        public string Uri { get; }
+        public Type ValueSource { get; set; } = typeof(ConfigurationManagerSource);
+
+        public string Uri
+        {
+            get
+            {
+                var valueSource = (ValueSource)Activator.CreateInstance(ValueSource);
+                return _uri.Format(valueSource);
+            }
+        }
     }
 
     [AttributeUsage(AttributeTargets.Interface)]
@@ -104,7 +116,7 @@ namespace RestClients
         public bool IsRequest(MethodInfo method)
         {
             var key = Guid.NewGuid().ToString();
-            return string.Format(Format, method
+            return Format.Format(method
                 .GetParameters()
                 .Select(p => p.IsIncomming() ? key : "")
                 .ToArray())
@@ -114,7 +126,7 @@ namespace RestClients
         public bool IsResponse(MethodInfo method)
         {
             var key = Guid.NewGuid().ToString();
-            return string.Format(Format, method
+            return Format.Format(method
                 .GetParameters()
                 .Select(p => p.IsOutgoing() ? key : "")
                 .ToArray())

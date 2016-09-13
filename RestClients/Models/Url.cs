@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RestClients.Formatting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,7 @@ namespace RestClients.Models
                 new Uri(baseUri), relativeUri)
                 .ToString();
 
-            Value = string.Format(format, parameters);
+            Value = format.Format(parameters);
         }
 
         string Value { get; }
