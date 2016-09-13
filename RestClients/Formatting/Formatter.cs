@@ -14,7 +14,7 @@ namespace RestClients.Formatting
         
         public static string Format(this string format, ValueSource source)
         {
-            foreach (var name in Regex.Matches(format, "{.*}")
+            foreach (var name in Regex.Matches(format, "{[^}]+}")
                 .OfType<Match>()
                 .Select(m => m.Groups[0].Value.Trim('{', '}')))
                 if (source[name] != null)
