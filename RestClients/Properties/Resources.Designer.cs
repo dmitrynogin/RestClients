@@ -61,7 +61,24 @@ namespace RestClients.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hello @Model.Name! Welcome to Razor!.
+        ///   Looks up a localized string similar to using System.Net.Http;
+        ///
+        ///namespace @Model.Namespace
+        ///{
+        ///    class @Model.ClassTypeName : @Model.BaseTypeName, @Model.InterfaceTypeName
+        ///    {
+        ///        public @Model.ClassTypeName (@Model.MessageHandlerTypeName handler)
+        ///            : base(@Model.ErrorType, handler)
+        ///        {
+        ///        }
+        ///
+        ///		@foreach(var action in Model.Actions)
+        ///		{ 
+        ///        @:public @action.ReturnTypeName @action.Name (@action.Arguments)
+        ///        @:{
+        ///			foreach(var initialization in action.Initializations)
+        ///            {
+        ///            @ [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string RestClient {
             get {

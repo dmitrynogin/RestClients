@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>RestClients</id>
+    <version>1.0.0</version>
+    <authors>Dmitry Nogin</authors>
+    <owners>Dmitry Nogin</owners>
+    <licenseUrl>https://raw.githubusercontent.com/dmitrynogin/RestClients/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/dmitrynogin/RestClients</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>RestClient library generates code to sent REST API requests by wrapping HttpClient and lets you operate at a higher level of abstraction. It only assumes one thing: request and response bodies are JSON.</description>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>http json rest client</tags>
+    <dependencies>
+      <dependency id="Microsoft.Net.Http" version="2.2.29" />
+      <dependency id="Newtonsoft.Json" version="9.0.1" />
+      <dependency id="RazorEngine" version="3.9.0" />
+      
+      <!--<dependency id="Microsoft.AspNet.Razor" version="3.0.0" />
+      <dependency id="Microsoft.Bcl" version="1.1.10" />
+      <dependency id="Microsoft.Bcl.Build" version="1.0.14" />-->
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="RestClients\bin\Release\RestClients.dll" target="lib\net45\RestClients.dll"/>
+  </files>
+</package>
