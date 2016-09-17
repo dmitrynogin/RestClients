@@ -2,14 +2,14 @@
 <package>
   <metadata>
     <id>RestClients</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <authors>Dmitry Nogin</authors>
     <owners>Dmitry Nogin</owners>
     <licenseUrl>https://raw.githubusercontent.com/dmitrynogin/RestClients/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/dmitrynogin/RestClients</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>RestClient library generates code to sent REST API requests by wrapping HttpClient and lets you operate at a higher level of abstraction. It only assumes one thing: request and response bodies are JSON.</description>
-    <releaseNotes>Initial release.</releaseNotes>
+    <releaseNotes>Ensure single client compilation for a given interface type.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>http json rest client</tags>
     <dependencies>
