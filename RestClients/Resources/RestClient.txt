@@ -60,6 +60,12 @@ namespace @Model.Namespace
                      .ToString(); 
             }
         }
+
+		public override string ToString()
+		{
+			 return CSharp; 
+		}
+
     }
 }
 

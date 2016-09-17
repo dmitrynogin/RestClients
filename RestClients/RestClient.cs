@@ -24,7 +24,7 @@ namespace RestClients
             (T)Activator.CreateInstance(Emit<T>(), handler);
 
         public static Type Emit<T>() =>
-            Types.GetOrAdd(typeof(T), new ClientBuilder<T>().Emit());
+            Types.GetOrAdd(typeof(T), t => new ClientBuilder<T>().Emit());
 
         static readonly JsonSerializerSettings Settings = new JsonSerializerSettings()
         {
